@@ -5,7 +5,7 @@ const bodyParser= require('body-parser')
 const cors = require('cors')
 const path = require('path')
 const app = express()
-
+const os= require('os')
 app.use(fileUpload());
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json())
@@ -42,9 +42,10 @@ app.post('/upload',(req,res)=>{
     })
 })
 
-app.delete('/deleteimage/:id',(req,res)=>{
-    let {id}=req.params
-    db.collection('images').deleteOne({ _id:parseInt(id) }, (err) => {
+app.delete('/deleteimage/:name',(req,res)=>{
+    let {name}=req.params
+    let filepath=__dirname+name
+    db.collection('images').deleteOne({ imagefileName:name }, (err) => {
         if (err) throw err
         res.send("document deleted")
     })
